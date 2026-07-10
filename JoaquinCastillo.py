@@ -41,3 +41,53 @@ def actualizar_precio(codigo, nuevo_precio, cartelera):
         cartelera[cod_upper][0] = nuevo_precio
         return True
     return False
+def validar_codigo(codigo, cartelera):
+    return len(codigo.strip()) > 0 and not buscar_codigo (codigo, cartelera )
+def validar_titulo(titulo):
+    return len(titulo.strip()) > 0
+
+def validar_genero(genero):
+    return len(genero.strip()) > 0
+
+def validar_duracion(duracion):
+    return duracion > 0
+
+def validar_clasificacion(clasificacion):
+    return clasificacion in ['A', 'B', 'C']
+
+def validar_idioma(idioma):
+    return len(idioma.strip()) > 0
+
+def validar_es_3d(es_3d):
+    return es_3d.lower() in ['s', 'n']
+
+def validar_precio(precio):
+    return precio > 0
+
+def validar_cupos(cupos):
+    return cupos >= 0
+def agregar_pelicula(codigo, titulo, genero, duracion, clasificacion, idioma, es_3d, precio, cupos, peliculas, cartelera):
+    cod_upper = codigo.upper()
+    if buscar_codigo(cod_upper, cartelera):
+        return False
+    valor_3d = True if es_3d.lower() == 's' else False
+    peliculas[cod_upper] = [titulo, genero, duracion, clasificacion, idioma, valor_3d]
+    cartelera[cod_upper] = [precio, cupos]
+    return True
+def eliminar_pelicula(codigo, peliculas, cartelera):
+    cod_upper = codigo.upper()
+    if buscar_codigo(cod_upper, cartelera):
+        del peliculas[cod_upper]
+        del cartelera[cod_upper]
+        return True
+    return False
+def mostrar_menu():
+    print("\n ================== MENU PRINCIPAL ====================")
+    print("1. cupos por genero ")
+    print("2. busqueda de peliculas por rango de precio ")
+    print("3. actualizar precio de pelicula")
+    print("4. agregar pelicula")
+    print("5. eliminar pelicula")
+    print("6. salir")
+    print("=========================================================")
+    
