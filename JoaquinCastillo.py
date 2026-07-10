@@ -190,4 +190,3 @@ def mostrar_menu():
              except ValueError:
                 print("Error: Precio debe ser un número entero.")
                 continue
-                
