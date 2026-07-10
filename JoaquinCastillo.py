@@ -190,3 +190,28 @@ def mostrar_menu():
              except ValueError:
                 print("Error: Precio debe ser un número entero.")
                 continue
+             try:
+                cupos = int(input("Ingrese cupos: "))
+                if not validar_cupos(cupos):
+                    print("Error: Cupos inválidos.")
+                    continue
+             except ValueError:
+                print("Error: Cupos debe ser un número entero.")
+                continue
+             if agregar_peliculas(codigo, titulo, genero, duracion, clasificacion, idioma, es_3d, precio, cupos, peliculas, cartelera):
+                 print("pelicula agregada")
+             else:
+                 print ("el codigo ya existe")
+          elif opcion == 5:
+            codigo = input("Ingrese código de película a eliminar: ")
+            if eliminar_pelicula(codigo, peliculas, cartelera):
+                print("Película eliminada")
+            else:
+                print("El código no existe")
+
+          elif opcion == 6:
+            print("Programa finalizado.")
+            break
+
+if __name__ == "__main__":
+    main()
