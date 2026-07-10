@@ -1,5 +1,5 @@
-def leer_opcion()
-    while true:
+def leer_opcion():
+    while True:
         try:
             opcion = int(input("Ingrese una opcion: "))
             if 1 <= opcion <= 6:
@@ -10,8 +10,8 @@ def leer_opcion()
             print("Debe seleccionar una opcion valida")
 def cupos_genero (genero, peliculas, cartelera):
     total_cupos = 0
-    genero_buscado = genero_strip().lower()
-    for cod, datos in peliculas_items():
+    genero_buscado = genero.strip().lower()
+    for cod, datos in peliculas.items():
         if datos[1].strip().lower() == genero_buscado:
             if cod in cartelera:
                 total_cupos += cartelera[cod][1]
@@ -19,7 +19,7 @@ def cupos_genero (genero, peliculas, cartelera):
 def busqueda_precio(p_min, p_max, peliculas, cartelera):
     encontradas = []
     for cod, datos in cartelera.items():
-        precio_datos = [0]
+        precio = datos = [0]
         cupos = datos[1]
         if p_min <= precio <= p_max and cupos > 0:
             if cod in peliculas:
@@ -91,20 +91,103 @@ def mostrar_menu():
     print("6. Salir")
     print("=========================================================")
     def main():
-    peliculas = {
+      peliculas = {
         'P101': ['Luz de Otoño', 'drama', 110, 'B', 'Español', False],
         'P102': ['Noche Neón', 'acción', 125, 'C', 'Ingles', True],
         'P103': ['Planeta Agua', 'documental', 90, 'A', 'Español', False],
         'P104': ['Risa Total', 'comedia', 105, 'A', 'Español', True],
         'P105': ['Código Zero', 'thriller', 118, 'C', 'Ingles', True],
         'P106': ['Viaje Lunar', 'ciencia ficción', 132, 'B', 'Ingles', False]
-    }
+      }
     
-    cartelera = {
+      cartelera = {
         'P101': [5990, 40],
         'P102': [7990, 0],
         'P103': [4990, 25],
         'P104': [6990, 12],
         'P105': [8990, 8],
         'P106': [7490, 3]
-    }
+      }
+      while True:
+          mostrar_menu()
+          opcion = leer_opcion()
+
+          if opcion == 1:
+            genero = input("Ingrese género a consultar: ")
+            cupos_genero(genero, peliculas, cartelera)
+
+          elif opcion == 2:
+            while True:
+                try:
+                    p_min = int(input("Ingrese precio mínimo: "))
+                    p_max = int(input("Ingrese precio máximo: "))
+                    if p_min >= 0 and p_max >= 0 and p_min <= p_max:
+                        break
+                    else:
+                        print("Rango inválido. Intente nuevamente.")
+                except ValueError:
+                    print("Debe ingresar valores enteros")
+                busqueda_precio(p_min, p_max, peliculas, cartelera)
+          elif opcion == 3:
+             continuar = 's'
+             while continuar.lower() == 's':
+                codigo = input("Ingrese código de película: ")
+                try:
+                    nuevo_precio = int(input("Ingrese nuevo precio: "))
+                    if nuevo_precio > 0:
+                        if actualizar_precio(codigo, nuevo_precio, cartelera):
+                            print("Precio actualizado")
+                        else:
+                            print("El código no existe")
+                    else:
+                        print("El precio debe ser mayor a cero.")
+                except ValueError:
+                    print("Debe ingresar un valor entero para el precio.")
+                
+                continuar = input("¿Desea actualizar otro precio (s/n)?: ")
+          elif opcion == 4:
+             codigo = input("Ingrese código de película: ")
+             if not validar_codigo(codigo, cartelera):
+                print("Error: Código inválido o ya existe.")
+                continue
+            
+             titulo = input("Ingrese título: ")
+             if not validar_titulo(titulo):
+                print("Error: Título inválido.")
+                continue
+                
+             genero = input("Ingrese género: ")
+             if not validar_genero(genero):
+                print("Error: Género inválido.")
+                continue
+                
+             try:
+                duracion = int(input("Ingrese duración (minutos): "))
+                if not validar_duracion(duracion):
+                    print("Error: Duración inválida.")
+                    continue
+             except ValueError:
+                print("Error: Duración debe ser un número entero.")
+                continue
+                
+             clasificacion = input("Ingrese clasificación: ")
+             if not validar_clasificacion(clasificacion):
+                print("Error: Clasificación inválida.")
+                continue
+             idioma = input("Ingrese idioma: ")
+             if not validar_idioma(idioma):
+                 print("Error: Idioma inválido.")
+                 continue
+             es_3d = input("¿Es 3D? (s/n): ")
+             if not validar_es_3d(es_3d):
+                print("Error: Opción 3D inválida.")
+                continue
+             try:
+                precio = int(input("Ingrese precio: "))
+                if not validar_precio(precio):
+                    print("Error: Precio inválido.")
+                    continue
+             except ValueError:
+                print("Error: Precio debe ser un número entero.")
+                continue
+                
